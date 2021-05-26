@@ -3,12 +3,12 @@ import { NgModule } from "@angular/core";
 import { RouterModule, Routes } from "@angular/router";
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AuthGuard } from "../../../core/auth/_guard/auth.guard";
-import { PostComponent } from "./post.component";
+import { FollowComponent } from "./follow.component";
 
 const routes: Routes = [
 	{
 		path: "",
-		component: PostComponent,
+		component: FollowComponent,
 		canActivate: [AuthGuard],
 	},
 ];
@@ -21,7 +21,7 @@ const routes: Routes = [
 		RouterModule.forChild(routes),
 	],
 	declarations: [
-		PostComponent,
+		FollowComponent,
 	],
 })
-export class PostModule { }
+export class FollowModule { }

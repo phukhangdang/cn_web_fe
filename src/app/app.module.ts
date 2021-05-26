@@ -5,6 +5,7 @@ import { HttpClientModule } from '@angular/common/http';
 
 import { ThemeModule } from './views/theme/theme.module'
 import { PostModule } from './views/pages/post/post.module'
+import { AuthModule } from './views/auth/auth.module'
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
@@ -24,6 +25,7 @@ import { Configuration } from './services/common/utility/app-configuration.servi
     ToastrModule.forRoot(),
     ThemeModule,
     PostModule,
+    AuthModule.forRoot(),
     StoreModule.forRoot({}, {}),
     StoreRouterConnectingModule.forRoot(),
   ],

@@ -19,6 +19,8 @@ import { AuthService } from '../../core/auth/_services/auth.service'
 import { authReducer } from '../../core/auth/_reducers/auth.reducers'
 import { InterceptService } from '../../services/common/utility/intercept.service'
 
+import { MatFormFieldModule } from '@angular/material/form-field';
+
 const routes: Routes = [
     {
         path: '',
@@ -50,6 +52,7 @@ const routes: Routes = [
         ReactiveFormsModule,
         RouterModule.forChild(routes),
         StoreModule.forFeature('auth', authReducer),
+        MatFormFieldModule,
         ],
     providers: [
         InterceptService,

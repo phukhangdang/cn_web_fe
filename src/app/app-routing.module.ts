@@ -6,40 +6,39 @@ import { DefaultLayoutComponent } from './views/theme/layouts/default-layout/def
 // Auth
 import { AuthGuard } from './core/auth/_guard/auth.guard';
 
-import { DashboardComponent } from './views/pages/dashboard/dashboard.component';
-import { UserComponent } from './views/pages/user/user.component';
-import { TableComponent } from './views/pages/table/table.component';
-import { TypographyComponent } from './views/pages/typography/typography.component';
-import { IconsComponent } from './views/pages/icons/icons.component';
-import { MapsComponent } from './views/pages/maps/maps.component';
-import { NotificationsComponent } from './views/pages/notifications/notifications.component';
-import { UpgradeComponent } from './views/pages/upgrade/upgrade.component';
 import { P404Component } from './views/error/404.component';
+import { P500Component } from './views/error/500.component';
 
 const routes: Routes = [
     { path: 'auth', loadChildren: () => import('./views/auth/auth.module').then(m => m.AuthModule) },
     {
         path: 'apps',
         component: DefaultLayoutComponent,
-        // canActivate: [AuthGuard],
+        canActivate: [AuthGuard],
         children: [
             {
                 path: 'post',
                 loadChildren: () => import('./views/pages/post/post.module').then(m => m.PostModule)
             },
-            { path: 'dashboard', component: DashboardComponent },
-            { path: 'user', component: UserComponent },
-            { path: 'table', component: TableComponent },
-            { path: 'typography', component: TypographyComponent },
-            { path: 'icons', component: IconsComponent },
-            { path: 'maps', component: MapsComponent },
-            { path: 'notifications', component: NotificationsComponent },
-            { path: 'upgrade', component: UpgradeComponent },
-            { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
-            { path: '**', redirectTo: 'dashboard', pathMatch: 'full' },
+            {
+                path: 'follow',
+                loadChildren: () => import('./views/pages/follow/follow.module').then(m => m.FollowModule)
+            },
+            {
+                path: 'user-profile',
+                loadChildren: () => import('./views/pages/user-profile/user-profile.module').then(m => m.UserProfileModule)
+            },
+            {
+                path: 'user-profile/:userId',
+                loadChildren: () => import('./views/pages/user-profile/user-profile.module').then(m => m.UserProfileModule)
+            },
+            { path: '', redirectTo: 'post', pathMatch: 'full' },
+            { path: '**', redirectTo: 'post', pathMatch: 'full' },
         ]
     },
-    { path: '', component: P404Component },
+    { path: '404', component: P404Component },
+    { path: '500', component: P500Component },
+    { path: '**', redirectTo: 'auth/login', pathMatch: 'full' },
 ];
 
 @NgModule({

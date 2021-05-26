@@ -1,6 +1,6 @@
 export class User {
     id: number;
-    username: string;
+    userName: string;
     password: string;
     email: string;
     accessToken: string;
@@ -10,7 +10,7 @@ export class User {
 
     clear(): void {
         this.id = undefined;
-        this.username = '';
+        this.userName = '';
         this.password = '';
         this.email = '';
         this.fullname = '';

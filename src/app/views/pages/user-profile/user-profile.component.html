@@ -1,43 +1,131 @@
 <div class="row">
     <div class="col-lg-6 ml-auto mr-auto">
         <div class="card card-user">
-            <div class="card-header">
-                <h5 class="card-title"
-                    style="font-size: large;">Create Post</h5>
-            </div>
             <div class="card-body">
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="form-group">
-                            <input type="text"
-                                   class="form-control"
-                                   placeholder="Title"
-                                   [(ngModel)]="newPost.title">
+                <div class="author"
+                     style="margin-top: 40px;">
+                    <img class="avatar border-gray"
+                         src="assets/img/default-avatar.png"
+                         alt="...">
+                    <h5 class="title"
+                        style="font-size: x-large;">{{ userData.userName }}</h5>
+                    <p class="description">
+                        {{ '@' + userData.userName }}
+                    </p>
+                </div>
+                <ng-container *ngIf="!isShowCreatePost">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <ng-container *ngIf="userData.isFollowed">
+                                <div class="col-sm-8"
+                                     style="float: right;">
+                                    <button type="button"
+                                            class="btn btn-info btn-block btn-round">Followed</button>
+                                </div>
+                            </ng-container>
+                            <ng-container *ngIf="!userData.isFollowed">
+                                <div class="col-sm-8"
+                                     style="float: right;">
+                                    <button type="button"
+                                            class="btn btn-info btn-block btn-round"
+                                            (click)="onBtnFollowClick()">Follow</button>
+                                </div>
+                            </ng-container>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="col-sm-8">
+                                <button type="button"
+                                        class="btn btn-info btn-block btn-round">Message</button>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="form-group">
-                            <textarea class="form-control textarea"
-                                      placeholder="What are you thinking?"
-                                      [(ngModel)]="newPost.content"></textarea>
+                </ng-container>
+            </div>
+            <div class="card-footer">
+                <hr>
+                <div class="button-container">
+                    <div class="row">
+                        <div class="col-lg-3 col-md-6 col-6 ml-auto">
+                            <h5>{{ userData.postCount }}
+                                <br>
+                                <ng-container *ngIf="userData.postCount <= 1">
+                                    <small>Post</small>
+                                </ng-container>
+                                <ng-container *ngIf="userData.postCount > 1">
+                                    <small>Posts</small>
+                                </ng-container>
+                            </h5>
                         </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-sm-8">
-                    </div>
-                    <div class="col-sm-4 text-center">
-                        <button type="button"
-                                class="btn btn-block btn-info btn-round"
-                                (click)="submitPost()">Post</button>
+                        <div class="col-lg-4 col-md-6 col-6 ml-auto mr-auto">
+                            <h5>{{ userData.followerCount }}
+                                <br>
+                                <ng-container *ngIf="userData.followerCount <= 1">
+                                    <small>Follower</small>
+                                </ng-container>
+                                <ng-container *ngIf="userData.followerCount > 1">
+                                    <small>Followers</small>
+                                </ng-container>
+                            </h5>
+                        </div>
+                        <div class="col-lg-3 mr-auto">
+                            <h5>{{ userData.followedCount }}
+                                <br>
+                                <ng-container *ngIf="userData.followedCount <= 1">
+                                    <small>Following</small>
+                                </ng-container>
+                                <ng-container *ngIf="userData.followedCount > 1">
+                                    <small>Followings</small>
+                                </ng-container>
+                            </h5>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+<ng-container *ngIf="isShowCreatePost">
+    <div class="row">
+        <div class="col-lg-6 ml-auto mr-auto">
+            <div class="card card-user">
+                <div class="card-header">
+                    <h5 class="card-title"
+                        style="font-size: large;">Create Post</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <input type="text"
+                                       class="form-control"
+                                       placeholder="Title"
+                                       [(ngModel)]="newPost.title">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <textarea class="form-control textarea"
+                                          placeholder="What are you thinking?"
+                                          [(ngModel)]="newPost.content"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-8">
+                        </div>
+                        <div class="col-sm-4 text-center">
+                            <button type="button"
+                                    class="btn btn-block btn-info btn-round"
+                                    (click)="submitPost()">Post</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</ng-container>
 <ng-container *ngFor="let post of postData">
     <div class="row">
         <div class="col-lg-6 ml-auto mr-auto">

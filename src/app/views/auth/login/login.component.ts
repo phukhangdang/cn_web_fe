@@ -1,11 +1,20 @@
 // Angular
-import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Component, OnInit, ViewEncapsulation, ViewChild } from '@angular/core';
+
+import { FormBuilder, FormGroup, Validators, NgForm } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 // RxJS
 import { Observable, Subject } from 'rxjs';
 // Auth
 import * as authConfig from '../../../core/_config/auth.config';
+// NGRX
+import { Store } from '@ngrx/store';
+import { AppState } from '../../../core/auth/reducers';
+// Auth
+import { AuthService } from '../../../core/auth/_services/auth.service';
+import { User } from '../../../core/auth/_models/user.model'
+import { Login } from '../../../core/auth/_actions/auth.actions'
+
 /**
  * ! Just example => Should be removed in development
  */
@@ -15,107 +24,67 @@ const DEMO_PARAMS = {
 };
 
 @Component({
-    selector: 'kt-login',
+    selector: 'app-login',
     templateUrl: './login.component.html',
     encapsulation: ViewEncapsulation.None
 })
-export class LoginComponent implements OnInit, OnDestroy {
-    // Public params
+export class LoginComponent implements OnInit {
     loginForm: FormGroup;
-    loading = false;
-    isLoggedIn$: Observable<boolean>;
-    errors: any = [];
+    @ViewChild('form', { static: true }) form: NgForm;
     public authConfig: any;
-    private unsubscribe: Subject<any>;
-    private returnUrl: any;
-
-    /**
-     * Component constructor
-     *
-     * @param router: Router
-     * @param auth: AuthService
-     * @param authNoticeService: AuthNoticeService
-     * @param translate: TranslateService
-     * @param store: Store<AppState>
-     * @param fb: FormBuilder
-     * @param cdr
-     * @param route
-     */
+    hide = true;
     constructor(
+        private formBuilder: FormBuilder,
+        private authService: AuthService,
+        private store: Store<AppState>,
         private router: Router,
-        private fb: FormBuilder,
-        private route: ActivatedRoute
-    ) {
-        this.unsubscribe = new Subject();
+    ) { }
+
+    ngOnInit() {
         this.authConfig = authConfig.Auth_CONFIG;
-    }
-
-    /**
-     * @ Lifecycle sequences => https://angular.io/guide/lifecycle-hooks
-     */
-
-    /**
-     * On init
-     */
-    ngOnInit(): void {
-        this.initLoginForm();
-        // redirect back to the returnUrl before login
-        this.route.queryParams.subscribe(params => {
-            this.returnUrl = params.returnUrl || '/';
+        if (this.isLogin) {
+            this.router.navigateByUrl('/apps/post');
+        }
+        this.loginForm = this.formBuilder.group({
+            username: ['', Validators.required],
+            password: ['', Validators.required],
         });
     }
 
-    /**
-     * On destroy
-     */
-    ngOnDestroy(): void {
-        this.unsubscribe.next();
-        this.unsubscribe.complete();
-        this.loading = false;
-    }
-
-    /**
-     * Form initalization
-     * Default params, validators
-     */
-    initLoginForm() {
-        this.loginForm = this.fb.group({
-            email: [DEMO_PARAMS.EMAIL, Validators.compose([
-                Validators.required,
-                Validators.email,
-                Validators.minLength(3),
-                Validators.maxLength(320) // https://stackoverflow.com/questions/386294/what-is-the-maximum-length-of-a-valid-email-address
-            ])
-            ],
-            password: [DEMO_PARAMS.PASSWORD, Validators.compose([
-                Validators.required,
-                Validators.minLength(3),
-                Validators.maxLength(100)
-            ])
-            ]
-        });
-    }
-
-    /**
-     * Form Submit
-     */
-    submit() {
-        this.router.navigateByUrl('/auth/login-child');
-    }
-
-    /**
-     * Checking control validation
-     *
-     * @param controlName: string => Equals to formControlName
-     * @param validationType: string => Equals to valitors name
-     */
-    isControlHasError(controlName: string, validationType: string): boolean {
-        const control = this.loginForm.controls[controlName];
-        if (!control) {
+    isLogin() {
+        const accessToken = this.authService.getCookie(this.authConfig.accessToken);
+        const user = this.authService.getCookie(this.authConfig.userInfo);
+        if(accessToken && accessToken !== null && user && user !== null)
+        {
+            var userInfo = JSON.parse(this.authService.getCookie(this.authConfig.userInfo))
+            this.store.dispatch(new Login({ user: userInfo }));
+            return true;
+        } else {
             return false;
         }
+    }
 
-        const result = control.hasError(validationType) && (control.dirty || control.touched);
-        return result;
+    onSubmit() {
+        if (this.loginForm.valid) {
+            const loginRequest = {
+                userName: this.loginForm.value["username"],
+                password: this.loginForm.value["password"],
+            };
+            this.authService.login(loginRequest).subscribe(res => {
+                if (res.canAccess && res.accessToken != null) {
+                    this.authService.setCookie(this.authConfig.accessToken, res.accessToken, 7);
+                    this.authService.setCookie(this.authConfig.userInfo, JSON.stringify(res.userInfo), 7);
+                    this.store.dispatch(new Login({ user: res.userInfo }))
+                    this.router.navigateByUrl('/apps/post');
+                } else {
+                    alert("Wrong!")
+                    // show message wrong user-password
+                }
+            });
+        }
+    }
+
+    register(): void {
+        this.router.navigate(['/auth/register']);
     }
 }
