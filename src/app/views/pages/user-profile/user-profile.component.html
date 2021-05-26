@@ -140,7 +140,7 @@
                             </div>
                         </div>
                         <div class="col-md-11 col-11">
-                            {{ post.userName }}
+                            <a (click)="viewProfile(post.userId)">{{ post.userName }}</a>
                             <br />
                             <span class="text-muted">
                                 <small>{{ post.createdAt | date: 'dd/MM/yy, hh:mm a' }}</small>
@@ -203,11 +203,10 @@
                                         'dd/MM/yy, hh:mm a' }}</small>
                                     <h5
                                         style="margin-left: 15px;font-size: larger;margin-right: 15px;font-weight: bold;">
-                                        {{ comment.userName }}
+                                        <a (click)="viewProfile(comment.userId)">{{ comment.userName }}</a>
                                         <br>
                                         <p style="font-weight: lighter;">{{ comment.content }}</p>
                                     </h5>
-
                                 </div>
                             </div>
                         </ng-container>

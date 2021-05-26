@@ -1,9 +1,11 @@
-import { Component, OnInit, Renderer2, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, Renderer2, ViewChild, ElementRef, ChangeDetectorRef } from '@angular/core';
 import { ROUTES } from '../sidebar/sidebar.component';
 import { Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { AuthService } from '../../../core/auth/_services/auth.service';
 import * as authConfig from '../../../core/_config/auth.config';
+import { UserService } from '../../../services/modules/user/user.service';
+import { UserRequestPayload } from '../../../services/modules/user/user-request.payload';
 
 @Component({
   moduleId: module.id,
@@ -19,11 +21,20 @@ export class NavbarComponent implements OnInit {
   private sidebarVisible: boolean;
   public authConfig: any;
   public title: any;
+  public userRequest = new UserRequestPayload();
+  public userData: any = [];
 
   public isCollapsed = true;
   @ViewChild("navbar-cmp", { static: false }) button;
 
-  constructor(location: Location, private authService: AuthService, private renderer: Renderer2, private element: ElementRef, private router: Router) {
+  constructor (
+    private cdr: ChangeDetectorRef,
+    location: Location,
+    private authService: AuthService,
+    private renderer: Renderer2,
+    private element: ElementRef,
+    private router: Router,
+    private userService: UserService) {
     this.location = location;
     this.nativeElement = element.nativeElement;
     this.sidebarVisible = false;
@@ -39,12 +50,33 @@ export class NavbarComponent implements OnInit {
     this.router.events.subscribe((event) => {
       this.sidebarClose();
     });
+    this.initUser();
   }
 
   logout() {
     this.authService.deleteCookie(this.authConfig.accessToken);
     this.authService.deleteCookie(this.authConfig.userInfo);
     this.router.navigate(['']);
+  }
+
+  initUser() {
+    this.userRequest.pageSize = 10;
+    this.userRequest.pageIndex = 0;
+    this.userService.select(this.userRequest).subscribe(res => {
+      this.userData = res;
+      this.cdr.detectChanges();
+    });
+  }
+
+  search(e) {
+    this.initUser();
+    // if (e.code == "Enter") {
+    //   this.initUser();
+    // }
+  }
+
+  viewProfile(userId: any) {
+    this.router.navigate([`apps/user-profile/${userId}`]);
   }
 
   sidebarToggle() {

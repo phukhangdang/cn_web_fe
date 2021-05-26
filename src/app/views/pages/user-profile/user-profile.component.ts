@@ -138,5 +138,9 @@ export class UserProfileComponent implements OnInit {
       this.ngOnInit();
     });
   }
+
+  viewProfile(userId: any) {
+    this.route.navigate([`/apps/user-profile/${userId}`]);
+  }
   
 }

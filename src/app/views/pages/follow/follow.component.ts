@@ -4,6 +4,7 @@ import { UserService } from '../../../services/modules/user/user.service';
 import { UserRequestPayload } from 'app/services/modules/user/user-request.payload';
 import { FollowedService } from 'app/services/modules/followed/followed.service';
 import { FollowerService } from 'app/services/modules/follower/follower.service';
+import { forkJoin } from 'rxjs';
 
 @Component({
   selector: 'app-follow',
@@ -44,14 +45,14 @@ export class FollowComponent implements OnInit {
     followed.userId = user.id;
     followed.followedId = userData.id;
 
-    this.followedService.merge(followed).subscribe(res => {
-      this.followerService.merge(follower).subscribe(res => {
-        
-      });
-      // sucesss
+    const requests = [
+      this.followedService.merge(followed),
+      this.followerService.merge(follower),
+    ]
+
+    forkJoin(requests).subscribe(res => {
       this.ngOnInit();
-      this.cdr.detectChanges();
-    })
+    });
   }
 
   viewProfile(user: any) {

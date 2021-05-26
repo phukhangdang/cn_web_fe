@@ -1,40 +1,45 @@
 <div class="row">
     <div class="col-lg-6 ml-auto mr-auto">
         <div class="card card-user">
-            <div class="card-header">
-                <h5 class="card-title"
-                    style="font-size: large;">Create Post</h5>
+            <div class="card-header"
+                 style="margin-bottom: 15px;">
+                <a (click)="onBtnShowCreatePostClick()">
+                    <h5 class="card-title"
+                        style="font-size: large;">Create Post</h5>
+                </a>
             </div>
-            <div class="card-body">
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="form-group">
-                            <input type="text"
-                                   class="form-control"
-                                   placeholder="Title"
-                                   [(ngModel)]="newPost.title">
+            <ng-container *ngIf="isShowCreatePost">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <input type="text"
+                                       class="form-control"
+                                       placeholder="Title"
+                                       [(ngModel)]="newPost.title">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <textarea class="form-control textarea"
+                                          placeholder="What are you thinking?"
+                                          [(ngModel)]="newPost.content"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-8">
+                        </div>
+                        <div class="col-sm-4 text-center">
+                            <button type="button"
+                                    class="btn btn-block btn-info btn-round"
+                                    (click)="submitPost()">Post</button>
                         </div>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="form-group">
-                            <textarea class="form-control textarea"
-                                      placeholder="What are you thinking?"
-                                      [(ngModel)]="newPost.content"></textarea>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-sm-8">
-                    </div>
-                    <div class="col-sm-4 text-center">
-                        <button type="button"
-                                class="btn btn-block btn-info btn-round"
-                                (click)="submitPost()">Post</button>
-                    </div>
-                </div>
-            </div>
+            </ng-container>
         </div>
     </div>
 </div>
@@ -52,7 +57,7 @@
                             </div>
                         </div>
                         <div class="col-md-11 col-11">
-                            {{ post.userName }}
+                            <a (click)="viewProfile(post.userId)">{{ post.userName }}</a>
                             <br />
                             <span class="text-muted">
                                 <small>{{ post.createdAt | date: 'dd/MM/yy, hh:mm a' }}</small>
@@ -115,11 +120,10 @@
                                         'dd/MM/yy, hh:mm a' }}</small>
                                     <h5
                                         style="margin-left: 15px;font-size: larger;margin-right: 15px;font-weight: bold;">
-                                        {{ comment.userName }}
+                                        <a (click)="viewProfile(comment.userId)">{{ comment.userName }}</a>
                                         <br>
                                         <p style="font-weight: lighter;">{{ comment.content }}</p>
                                     </h5>
-
                                 </div>
                             </div>
                         </ng-container>

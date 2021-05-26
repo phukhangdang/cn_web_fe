@@ -13,6 +13,7 @@ import { PostService } from '../../../services/modules/post/post.service';
 export class PostComponent implements OnInit {
   public postData: any = [];
   public newPost: any = {};
+  public isShowCreatePost: boolean = false;
 
   constructor(
     private cdr: ChangeDetectorRef,
@@ -67,8 +68,16 @@ export class PostComponent implements OnInit {
       });
   }
 
+  public onBtnShowCreatePostClick() {
+    this.isShowCreatePost = !this.isShowCreatePost;
+  }
+
   public onBtnShowCommnetClick(post: any) {
     post.isShowComment = !post.isShowComment;
+  }
+
+  viewProfile(userId: any) {
+    this.route.navigate([`/apps/user-profile/${userId}`]);
   }
 
 }
