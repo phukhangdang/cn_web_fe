@@ -1,5 +1,5 @@
 <div class="app-body "
-	 style="position: relative;transform: translate(0%, 10%);">
+	 style="position: relative;transform: translate(0%, 20%);">
 	<main class="main d-flex align-items-center">
 		<div class="container">
 			<div class="row">
@@ -11,15 +11,17 @@
 								  (ngSubmit)="submit()">
 								<h1>Register</h1>
 								<p class="text-muted">Create your account</p>
-								<ng-container *ngIf="isControlHasError('username','required')">
-									<small style="color: red;">{{ '*Không được bỏ trống' }}</small>
-								</ng-container>
-								<ng-container *ngIf="isControlHasError('username','minlength')">
-									<small style="color: red;">{{ '*Username quá ngắn' }}</small>
-								</ng-container>
-								<ng-container *ngIf="isControlHasError('username','maxlength')">
-									<small style="color: red;">{{ '*Username quá dài' }}</small>
-								</ng-container>
+								<small style="color: red;">{{ '*' }}
+									<ng-container *ngIf="isControlHasError('username','required')">
+										{{ ' ' + 'Không được bỏ trống' }}
+									</ng-container>
+									<ng-container *ngIf="isControlHasError('username','minlength')">
+										{{ ' ' + 'Username quá ngắn' }}
+									</ng-container>
+									<ng-container *ngIf="isControlHasError('username','maxlength')">
+										{{ ' ' + 'Username quá dài' }}
+									</ng-container>
+								</small>
 								<div class="input-group mb-3">
 									<div class="input-group-prepend">
 										<span class="input-group-text"><i class="nc-icon nc-single-02"></i></span>
@@ -30,18 +32,20 @@
 										   formControlName="username"
 										   required>
 								</div>
-								<ng-container *ngIf="isControlHasError('email','required')">
-									<small style="color: red;">{{ '*Không được bỏ trống' }}</small>
-								</ng-container>
-								<ng-container *ngIf="isControlHasError('email','email')">
-									<small style="color: red;">{{ '*Email không đúng định dạng' }}</small>
-								</ng-container>
-								<ng-container *ngIf="isControlHasError('email','minlength')">
-									<small style="color: red;">{{ '*Email quá ngắn' }}</small>
-								</ng-container>
-								<ng-container *ngIf="isControlHasError('email','maxlength')">
-									<small style="color: red;">{{ '*Email quá dài' }}</small>
-								</ng-container>
+								<small style="color: red;">{{ '*' }}
+									<ng-container *ngIf="isControlHasError('email','required')">
+										{{ ' ' + 'Không được bỏ trống' }}
+									</ng-container>
+									<ng-container *ngIf="isControlHasError('email','email')">
+										{{ ' ' + 'Email không đúng định dạng' }}
+									</ng-container>
+									<ng-container *ngIf="isControlHasError('email','minlength')">
+										{{ ' ' + 'Email quá ngắn' }}
+									</ng-container>
+									<ng-container *ngIf="isControlHasError('email','maxlength')">
+										{{ ' ' + 'Email quá dài' }}
+									</ng-container>
+								</small>
 								<div class="input-group mb-3">
 									<div class="input-group-prepend">
 										<span class="input-group-text"><i class="nc-icon nc-send"></i></span>
@@ -52,15 +56,17 @@
 										   formControlName="email"
 										   required>
 								</div>
-								<ng-container *ngIf="isControlHasError('password','required')">
-									<small style="color: red;">{{ '*Không được bỏ trống' }}</small>
-								</ng-container>
-								<ng-container *ngIf="isControlHasError('password','minlength')">
-									<small style="color: red;">{{ '*Username quá ngắn' }}</small>
-								</ng-container>
-								<ng-container *ngIf="isControlHasError('password','maxlength')">
-									<small style="color: red;">{{ '*Username quá dài' }}</small>
-								</ng-container>
+								<small style="color: red;">{{ '*' }}
+									<ng-container *ngIf="isControlHasError('password','required')">
+										{{ ' ' + 'Không được bỏ trống' }}
+									</ng-container>
+									<ng-container *ngIf="isControlHasError('password','minlength')">
+										{{ ' ' + 'Username quá ngắn' }}
+									</ng-container>
+									<ng-container *ngIf="isControlHasError('password','maxlength')">
+										{{ ' ' + 'Username quá dài' }}
+									</ng-container>
+								</small>
 								<div class="input-group mb-3">
 									<div class="input-group-prepend">
 										<span class="input-group-text"><i class="nc-icon nc-key-25"></i></span>
@@ -71,9 +77,12 @@
 										   formControlName="password"
 										   required>
 								</div>
-								<ng-container *ngIf="registerForm.get('confirmPassword').errors && registerForm.get('confirmPassword').errors.ConfirmPassword">
-									<small style="color: red;">{{ '*Password không khớp' }}</small>
-								</ng-container>
+								<small style="color: red;">{{ '*' }}
+									<ng-container
+												  *ngIf="registerForm.get('confirmPassword').errors && registerForm.get('confirmPassword').errors.ConfirmPassword">
+										{{ ' ' + 'Password không khớp' }}
+									</ng-container>
+								</small>
 								<div class="input-group mb-4">
 									<div class="input-group-prepend">
 										<span class="input-group-text"><i class="nc-icon nc-check-2"></i></span>

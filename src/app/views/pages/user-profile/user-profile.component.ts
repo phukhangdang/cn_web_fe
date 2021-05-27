@@ -5,10 +5,11 @@ import { PostCommentService } from '../../../services/modules/post-comment/post-
 import { PostLikeService } from '../../../services/modules/post-like/post-like.service';
 import { PostRequestPayload } from '../../../services/modules/post/post-request.payload';
 import { PostService } from '../../../services/modules/post/post.service';
-import { UserRequestPayload } from 'app/services/modules/user/user-request.payload';
-import { FollowedService } from 'app/services/modules/followed/followed.service';
-import { FollowerService } from 'app/services/modules/follower/follower.service';
+import { UserRequestPayload } from '../../../services/modules/user/user-request.payload';
+import { FollowedService } from '../../../services/modules/followed/followed.service';
+import { FollowerService } from '../../../services/modules/follower/follower.service';
 import { forkJoin } from 'rxjs';
+import * as signalR from '@microsoft/signalr';
 
 @Component({
   selector: 'app-user-profile',
@@ -20,6 +21,7 @@ export class UserProfileComponent implements OnInit {
   public newPost: any = {};
   public userData: any = {};
   public isShowCreatePost: boolean;
+  private _hubConnection: signalR.HubConnection;
 
   constructor(
     private cdr: ChangeDetectorRef,
@@ -35,6 +37,11 @@ export class UserProfileComponent implements OnInit {
     }
 
   ngOnInit() {
+    this.initData();
+    this.setConnection();
+  }
+
+  initData() {
     var user = JSON.parse(this.postService.getCookie("UserInfo"));
     this.activatedRoute.params.subscribe(params => {
       if (params.userId) {
@@ -47,7 +54,37 @@ export class UserProfileComponent implements OnInit {
         this.isShowCreatePost = true;
         this.initMyProfile();
       }
-    })
+    });
+  }
+
+  setConnection() {
+    this._hubConnection = new signalR.HubConnectionBuilder()
+      .configureLogging(signalR.LogLevel.Debug)
+      .withUrl("https://localhost:44352/signalR", {
+        skipNegotiation: true,
+        transport: signalR.HttpTransportType.WebSockets
+      })
+      .build();
+    this._hubConnection
+      .start()
+      .then(() => console.log('Connection started!'))
+      .catch(err => console.log('Error while establishing connection :('));
+
+    this._hubConnection.on('BroadcastComment', (data: any) => {
+      this.addCommentToPost(data);
+      console.log(data);
+    });
+  }
+
+  addCommentToPost(comment: any) {
+    var postIndex = this.postData.findIndex(e => {
+      return e.id == comment.postId;
+    });
+    console.log(postIndex);
+    if (postIndex >= 0) {
+      this.postData[postIndex].comments.push(comment);
+    }
+    this.cdr.detectChanges();
   }
 
   initUser(id: any) {
@@ -89,7 +126,7 @@ export class UserProfileComponent implements OnInit {
   public submitPost(): void {
     this.postService.merge(this.newPost).subscribe(res => {
       this.newPost = {};
-      this.ngOnInit();
+      this.initData();
     });
   }
 
@@ -100,7 +137,7 @@ export class UserProfileComponent implements OnInit {
       commentRequest.postId = post.id;
       commentRequest.content = e.target.value;
       this.postCommentService.merge(commentRequest).subscribe(res => {
-        this.ngOnInit();
+        this.initData();
         console.log(res);
       });
     }
@@ -110,7 +147,7 @@ export class UserProfileComponent implements OnInit {
     var likeRequest: any = {};
       likeRequest.postId = post.id;
       this.postLikeService.merge(likeRequest).subscribe(res => {
-        this.ngOnInit();
+        this.initData();
         console.log(res);
       });
   }
@@ -135,7 +172,7 @@ export class UserProfileComponent implements OnInit {
     ]
 
     forkJoin(requests).subscribe(res => {
-      this.ngOnInit();
+      this.initData();
     });
   }
 

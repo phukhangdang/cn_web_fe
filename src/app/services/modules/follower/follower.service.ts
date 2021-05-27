@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpService } from '../../common/http/http.service';
+import { FollowerRequestPayload } from './follower.payload'
 import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 @Injectable({

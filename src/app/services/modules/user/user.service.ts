@@ -3,6 +3,7 @@ import { HttpService } from '../../common/http/http.service';
 import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { BaseResponse } from '../../../services/common/http/base-response.model';
+import { UserRequestPayload } from './user-request.payload'
 @Injectable({
     providedIn: 'root'
 })

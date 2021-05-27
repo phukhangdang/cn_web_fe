@@ -11,6 +11,7 @@ import { ConfirmPasswordValidator } from './confirm-password.validator';
 import { UserService } from '../../../services/modules/user/user.service';
 import { AuthService } from '../../../core/auth/_services/auth.service';
 import * as authConfig from '../../../core/_config/auth.config';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
 	selector: 'app-register',
@@ -26,7 +27,8 @@ export class RegisterComponent implements OnInit {
 		private fb: FormBuilder,
 		private userService: UserService,
 		private store: Store<AppState>,
-		private authService: AuthService
+		private authService: AuthService,
+		private toastr: ToastrService
 	) { }
 
 	ngOnInit() {
@@ -89,7 +91,32 @@ export class RegisterComponent implements OnInit {
 		this.userService.create(_user).subscribe(res => {
 			this.authService.deleteCookie(this.authConfig.accessToken);
 			this.authService.deleteCookie(this.authConfig.userInfo);
-			this.router.navigate(['auth/login']);
+			this.toastr.success(
+				'<span data-notify="icon" class="nc-icon nc-bell-55"></span><span data-notify="message"><b>Register Successfully</b><br><b>Welcome to D2B2LM!</b></span>',
+				"",
+				{
+				  timeOut: 4000,
+				  closeButton: true,
+				  enableHtml: true,
+				  toastClass: "alert alert-success alert-with-icon",
+				  positionClass: "toast-" + "top" + "-" + "center"
+				}
+			  );
+			setTimeout(() => {
+				this.router.navigate(['auth/login']);
+			}, 4000);
+		}, err => {
+			this.toastr.error(
+				`<span data-notify="icon" class="nc-icon nc-bell-55"></span><span data-notify="message"><b>${err.error}</b></span>`,
+				  "",
+				  {
+					timeOut: 4000,
+					enableHtml: true,
+					closeButton: true,
+					toastClass: "alert alert-danger alert-with-icon",
+					positionClass: "toast-" + "top" + "-" + "center"
+				  }
+				);
 		});
 	}
 

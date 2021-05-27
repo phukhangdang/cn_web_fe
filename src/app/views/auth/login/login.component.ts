@@ -14,6 +14,7 @@ import { AppState } from '../../../core/auth/reducers';
 import { AuthService } from '../../../core/auth/_services/auth.service';
 import { User } from '../../../core/auth/_models/user.model'
 import { Login } from '../../../core/auth/_actions/auth.actions'
+import { ToastrService } from 'ngx-toastr';
 
 /**
  * ! Just example => Should be removed in development
@@ -38,6 +39,7 @@ export class LoginComponent implements OnInit {
         private authService: AuthService,
         private store: Store<AppState>,
         private router: Router,
+        private toastr: ToastrService
     ) { }
 
     ngOnInit() {
@@ -77,8 +79,17 @@ export class LoginComponent implements OnInit {
                     this.store.dispatch(new Login({ user: res.userInfo }))
                     this.router.navigateByUrl('/apps/post');
                 } else {
-                    alert("Wrong!")
-                    // show message wrong user-password
+                    this.toastr.error(
+                        `<span data-notify="icon" class="nc-icon nc-bell-55"></span><span data-notify="message"><b>Username or Password incorrect</b><br>Please try again!</span>`,
+                          "",
+                          {
+                            timeOut: 4000,
+                            enableHtml: true,
+                            closeButton: true,
+                            toastClass: "alert alert-danger alert-with-icon",
+                            positionClass: "toast-" + "top" + "-" + "center"
+                          }
+                        );
                 }
             });
         }
