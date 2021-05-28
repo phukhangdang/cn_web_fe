@@ -12,7 +12,24 @@ export class HttpService<T = any> {
     protected httpClient = ServiceLocator.injector.get(HttpClient);
     protected configuration = ServiceLocator.injector.get(Configuration).configuration;
 
-    public origin = 'https://localhost:44352/';
+    // localhost
+    // https
+    // public origin = 'https://localhost:44350/';
+    // http
+    // public origin = 'http://localhost:35375/';
+
+    // server 1
+    // https
+    // public origin = 'https://116.99.32.130:44350/';
+    // http
+    // public origin = 'http://116.99.32.130:35375/';
+
+    // server 2
+    // https
+    public origin = 'https://117.6.251.179:44350/';
+    // http
+    // public origin = 'http://117.6.251.179:35375/';
+
     public url = '';
     public authConfig: any;
     public isLoading = false;

@@ -1,6 +1,6 @@
 <div class="row">
     <ng-container *ngFor="let user of userData">
-        <div class="col-lg-4">
+        <div class="col-md-4">
             <div class="card card-user">
                 <div class="card-body">
                     <div class="author"
@@ -8,14 +8,16 @@
                         <img class="avatar border-gray"
                              src="assets/img/default-avatar.png"
                              alt="...">
-                        <a (click)="viewProfile(user)"><h5 class="title"
-                            style="font-size: x-large;">{{ user.userName }}</h5></a> 
+                        <a (click)="viewProfile(user)">
+                            <h5 class="title"
+                                style="font-size: x-large;">{{ user.userName }}</h5>
+                        </a>
                         <p class="description">
                             {{ '@' + user.userName }}
                         </p>
                     </div>
                     <div class="row">
-                        <div class="col-sm-6">
+                        <div class="col-6">
                             <ng-container *ngIf="user.isFollowed">
                                 <button type="button"
                                         class="btn btn-info btn-block btn-round">Followed</button>
@@ -26,7 +28,7 @@
                                         (click)="onBtnFollowClick(user)">Follow</button>
                             </ng-container>
                         </div>
-                        <div class="col-sm-6">
+                        <div class="col-6">
                             <button type="button"
                                     class="btn btn-info btn-block btn-round">Message</button>
                         </div>
@@ -36,7 +38,7 @@
                     <hr>
                     <div class="button-container">
                         <div class="row">
-                            <div class="col-sm-4 text-center">
+                            <div class="col-4 text-center">
                                 <h5>{{ user.postCount }}
                                     <br>
                                     <ng-container *ngIf="user.postCount <= 1">
@@ -47,7 +49,7 @@
                                     </ng-container>
                                 </h5>
                             </div>
-                            <div class="col-sm-4 text-center">
+                            <div class="col-4 text-center">
                                 <h5>{{ user.followerCount }}
                                     <br>
                                     <ng-container *ngIf="user.followerCount <= 1">
@@ -58,7 +60,7 @@
                                     </ng-container>
                                 </h5>
                             </div>
-                            <div class="col-sm-4 text-center">
+                            <div class="col-4 text-center">
                                 <h5>{{ user.followedCount }}
                                     <br>
                                     <ng-container *ngIf="user.followedCount <= 1">

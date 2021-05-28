@@ -35,7 +35,7 @@ export class PostComponent implements OnInit {
   setConnection() {
     this._hubConnection = new signalR.HubConnectionBuilder()
       .configureLogging(signalR.LogLevel.Debug)
-      .withUrl("https://localhost:44352/signalR", {
+      .withUrl(`${this.postService.origin}signalR`, {
         skipNegotiation: true,
         transport: signalR.HttpTransportType.WebSockets
       })

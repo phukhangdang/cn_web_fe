@@ -30,9 +30,9 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-sm-8">
+                        <div class="col-8">
                         </div>
-                        <div class="col-sm-4 text-center">
+                        <div class="col-4 text-center">
                             <button type="button"
                                     class="btn btn-block btn-info btn-round"
                                     (click)="submitPost()">Post</button>
@@ -81,32 +81,36 @@
                     </ng-container>
                     <hr>
                     <div class="row">
-                        <div class="col-sm-4 text-center">
+                        <div class="col-4 text-center">
                             <ng-container *ngIf="!post.liked">
                                 <button type="button"
                                         class="btn btn-info btn-block btn-round"
-                                        (click)="submitLike(post)">Like</button>
+                                        (click)="submitLike(post)"
+                                        style="min-width: fit-content;">Like</button>
                             </ng-container>
                             <ng-container *ngIf="post.liked">
                                 <button type="button"
-                                        class="btn btn-info btn-block btn-round">Liked</button>
+                                        class="btn btn-info btn-block btn-round"
+                                        style="min-width: fit-content;">Liked</button>
                             </ng-container>
                         </div>
-                        <div class="col-sm-4 text-center">
+                        <div class="col-4 text-center">
                             <button type="button"
                                     class="btn btn-info btn-block btn-round"
-                                    (click)="onBtnShowCommnetClick(post)">Comment</button>
+                                    (click)="onBtnShowCommnetClick(post)"
+                                    style="min-width: fit-content;">Comment</button>
                         </div>
-                        <div class="col-sm-4 text-center">
+                        <div class="col-4 text-center">
                             <button type="button"
-                                    class="btn btn-info btn-block btn-round">Share</button>
+                                    class="btn btn-info btn-block btn-round"
+                                    style="min-width: fit-content;">Share</button>
                         </div>
                     </div>
                     <hr>
                     <ng-container *ngIf="post.isShowComment">
                         <ng-container *ngFor="let comment of post.comments">
                             <div class="row">
-                                <div class="col-md-2 col-2">
+                                <div class="col-2">
                                     <div class="avatar"
                                          style="float: right;">
                                         <img src="assets/img/default-avatar.png"
@@ -114,16 +118,19 @@
                                              class="img-circle img-no-padding img-responsive">
                                     </div>
                                 </div>
-                                <div class="card bg-light"
-                                     style="width: auto;">
-                                    <small style="margin-top: 15px;margin-left: 15px;margin-right: 15px;">{{ comment.createdAt | date:
-                                        'dd/MM/yy, hh:mm a' }}</small>
-                                    <h5
-                                        style="margin-left: 15px;font-size: larger;margin-right: 15px;font-weight: bold;">
-                                        <a (click)="viewProfile(comment.userId)">{{ comment.userName }}</a>
-                                        <br>
-                                        <p style="font-weight: lighter;">{{ comment.content }}</p>
-                                    </h5>
+                                <div class="col-10">
+                                    <div class="card bg-light"
+                                         style="width: fit-content;">
+                                        <small style="margin-top: 15px;margin-left: 15px;margin-right: 15px;">{{
+                                            comment.createdAt | date:
+                                            'dd/MM/yy, hh:mm a' }}</small>
+                                        <h5
+                                            style="margin-left: 15px;font-size: larger;margin-right: 15px;font-weight: bold;">
+                                            <a (click)="viewProfile(comment.userId)">{{ comment.userName }}</a>
+                                            <br>
+                                            <p style="font-weight: lighter;">{{ comment.content }}</p>
+                                        </h5>
+                                    </div>
                                 </div>
                             </div>
                         </ng-container>

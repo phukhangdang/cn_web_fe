@@ -25,13 +25,13 @@
          id="collapseExample"
          [ngbCollapse]="isCollapsed">
       <form>
-        <div class="input-group no-border"
+        <div class="input-group no-border nav-item"
              ngbDropdown>
           <input type="text"
                  [(ngModel)]="userRequest.userName"
                  [ngModelOptions]="{standalone: true}"
                  ngbDropdownToggle
-                 class="form-control"
+                 class="form-control nav-link"
                  placeholder="Search..."
                  (keyup)="search($event)">
           <div class="input-group-append">
@@ -41,7 +41,7 @@
           </div>
           <div ngbDropdownMenu
                aria-labelledby="navbarDropdownSearch"
-               class="dropdown-menu dropdown-menu-right">
+               class="dropdown-menu dropdown-menu-bottom">
             <ng-container *ngFor="let user of userData">
               <a ngbDropdownItem
                  (click)="viewProfile(user.id)">{{ '@' + user.userName }}</a>
