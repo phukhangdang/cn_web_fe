@@ -1,5 +1,30 @@
-::ng-deep {
-    .col-lg-6 {
-        min-width: 650px;
+.col-lg-6{ 
+    min-width: 650px; 
+}
+
+@media only screen
+  and (min-device-width: 0px) 
+  and (max-device-width: 1000px) 
+  and (-webkit-min-device-pixel-ratio: 3) { 
+    .col-lg-6{
+        min-width: 0px;
+    }
+}
+
+@media only screen
+  and (min-device-width: 0px) 
+  and (max-device-width: 1000px) 
+  and (-webkit-min-device-pixel-ratio: 2) { 
+    .col-lg-6{
+        min-width: 0px;
+    }
+}
+
+@media only screen
+  and (min-device-width: 0px) 
+  and (max-device-width: 1000px) 
+  and (-webkit-min-device-pixel-ratio: 1) { 
+    .col-lg-6{
+        min-width: 0px;
     }
 }
