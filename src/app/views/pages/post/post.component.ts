@@ -8,7 +8,8 @@ import { PostService } from '../../../services/modules/post/post.service';
 
 @Component({
   selector: 'app-post',
-  templateUrl: './post.component.html'
+  templateUrl: './post.component.html',
+  styleUrls: ['./post.component.scss']
 })
 
 export class PostComponent implements OnInit {
