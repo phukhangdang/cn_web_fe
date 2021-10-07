@@ -92,7 +92,7 @@ export class RegisterComponent implements OnInit {
 			this.authService.deleteCookie(this.authConfig.accessToken);
 			this.authService.deleteCookie(this.authConfig.userInfo);
 			this.toastr.success(
-				'<span data-notify="icon" class="nc-icon nc-bell-55"></span><span data-notify="message"><b>Register Successfully</b><br><b>Welcome to D2B2LM!</b></span>',
+				'<span data-notify="icon" class="nc-icon nc-bell-55"></span><span data-notify="message"><b>Register Successfully</b><br><b>Welcome to Sunday!</b></span>',
 				"",
 				{
 				  timeOut: 4000,
