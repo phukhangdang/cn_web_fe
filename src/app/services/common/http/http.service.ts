@@ -14,21 +14,21 @@ export class HttpService<T = any> {
 
     // localhost
     // https
-    // public origin = 'https://localhost:44350/';
+    public origin = 'https://localhost:44350/';
     // http
     // public origin = 'http://localhost:35375/';
 
     // server 1
     // https
-    // public origin = 'https://116.99.32.130:44350/';
+    // public origin = 'https://192.168.31.162:4445/';
     // http
     // public origin = 'http://116.99.32.130:35375/';
 
     // server 2
     // https
-    public origin = 'https://117.6.251.179:44350/';
+    // public origin = 'https://117.6.251.179:44350/';
     // http
-    // public origin = 'http://117.6.251.179:35375/';
+    // public origin = 'http://117.6.251.179:4444/';
 
     public url = '';
     public authConfig: any;
