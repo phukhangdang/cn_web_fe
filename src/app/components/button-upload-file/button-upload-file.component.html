@@ -1,0 +1,13 @@
+<input
+  #file
+  id="button-add-attach-file"
+  name="input-file"
+  style="display: none"
+  (change)="onFileInputChange(file.files)"
+  type="file"
+/>
+
+<button type="button" class="btn btn-primary btn-round" (click)="file.click()">
+  <i class="nc-icon nc-cloud-upload-94" style="margin-right: 5px"></i>
+  {{ fileName ? fileName : "Đính kèm" }}
+</button>

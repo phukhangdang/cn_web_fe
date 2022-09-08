@@ -1,160 +1,213 @@
 <div class="row">
-    <div class="col-lg-6 ml-auto mr-auto">
-        <div class="card card-user">
-            <div class="card-header"
-                 style="margin-bottom: 15px;">
-                <a (click)="onBtnShowCreatePostClick()">
-                    <h5 class="card-title"
-                        style="font-size: large;">Create Post</h5>
-                </a>
+  <div class="col-lg-6 ml-auto mr-auto">
+    <div class="card card-user">
+      <div class="card-header" style="margin-bottom: 15px">
+        <a (click)="onBtnShowCreatePostClick()">
+          <h5 class="card-title" style="font-size: large">Create Post</h5>
+        </a>
+      </div>
+      <ng-container *ngIf="isShowCreatePost">
+        <div class="card-body">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="form-group">
+                <input
+                  type="text"
+                  class="form-control"
+                  placeholder="Title"
+                  [(ngModel)]="newPost.title"
+                />
+              </div>
             </div>
-            <ng-container *ngIf="isShowCreatePost">
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="form-group">
-                                <input type="text"
-                                       class="form-control"
-                                       placeholder="Title"
-                                       [(ngModel)]="newPost.title">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="form-group">
-                                <textarea class="form-control textarea"
-                                          placeholder="What are you thinking?"
-                                          [(ngModel)]="newPost.content"></textarea>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-8">
-                        </div>
-                        <div class="col-4 text-center">
-                            <button type="button"
-                                    class="btn btn-block btn-info btn-round"
-                                    (click)="submitPost()">Post</button>
-                        </div>
-                    </div>
-                </div>
-            </ng-container>
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <div class="form-group">
+                <textarea
+                  class="form-control textarea"
+                  placeholder="What are you thinking?"
+                  [(ngModel)]="newPost.content"
+                ></textarea>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <div class="form-group">
+                <button-upload-file
+                  module="file"
+                  (uploaded)="onUploadedFile($event)"
+                >
+                </button-upload-file>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-8"></div>
+            <div class="col-4 text-center">
+              <button
+                type="button"
+                class="btn btn-block btn-info btn-round"
+                (click)="submitPost()"
+              >
+                Post
+              </button>
+            </div>
+          </div>
         </div>
+      </ng-container>
     </div>
+  </div>
 </div>
 <ng-container *ngFor="let post of postData">
-    <div class="row">
-        <div class="col-lg-6 ml-auto mr-auto">
-            <div class="card card-stats">
-                <div class="card-header">
-                    <div class="row">
-                        <div class="col-md-1 col-1">
-                            <div class="avatar">
-                                <img src="assets/img/default-avatar.png"
-                                     alt="Circle Image"
-                                     class="img-circle img-no-padding img-responsive">
-                            </div>
-                        </div>
-                        <div class="col-md-11 col-11">
-                            <a (click)="viewProfile(post.userId)">{{ post.userName }}</a>
-                            <br />
-                            <span class="text-muted">
-                                <small>{{ post.createdAt | date: 'dd/MM/yy, hh:mm a' }}</small>
-                            </span>
-                        </div>
-                    </div>
-                </div>
-                <div class="card-body ">
-                    <h5 style="font-size: large;">{{ post.title }}</h5>
-                    <p>{{ post.content }}</p>
-                </div>
-                <div class="card-footer">
-                    <ng-container *ngIf="!post.countLike">
-                        <small>No like</small>
-                    </ng-container>
-                    <ng-container *ngIf="post.countLike == 1">
-                        <small>{{ post.countLike + ' ' + 'like' }}</small>
-                    </ng-container>
-                    <ng-container *ngIf="post.countLike > 1">
-                        <small>{{ post.countLike + ' ' + 'likes' }}</small>
-                    </ng-container>
-                    <hr>
-                    <div class="row">
-                        <div class="col-4 text-center">
-                            <ng-container *ngIf="!post.liked">
-                                <button type="button"
-                                        class="btn btn-info btn-block btn-round"
-                                        (click)="submitLike(post)"
-                                        style="min-width: fit-content;">Like</button>
-                            </ng-container>
-                            <ng-container *ngIf="post.liked">
-                                <button type="button"
-                                        class="btn btn-info btn-block btn-round"
-                                        style="min-width: fit-content;">Liked</button>
-                            </ng-container>
-                        </div>
-                        <div class="col-4 text-center">
-                            <button type="button"
-                                    class="btn btn-info btn-block btn-round"
-                                    (click)="onBtnShowCommnetClick(post)"
-                                    style="min-width: fit-content;">Comment</button>
-                        </div>
-                        <div class="col-4 text-center">
-                            <button type="button"
-                                    class="btn btn-info btn-block btn-round"
-                                    style="min-width: fit-content;">Share</button>
-                        </div>
-                    </div>
-                    <hr>
-                    <ng-container *ngIf="post.isShowComment">
-                        <ng-container *ngFor="let comment of post.comments">
-                            <div class="row">
-                                <div class="col-2">
-                                    <div class="avatar"
-                                         style="float: right;">
-                                        <img src="assets/img/default-avatar.png"
-                                             alt="Circle Image"
-                                             class="img-circle img-no-padding img-responsive">
-                                    </div>
-                                </div>
-                                <div class="col-10">
-                                    <div class="card bg-light"
-                                         style="width: fit-content;">
-                                        <small style="margin-top: 15px;margin-left: 15px;margin-right: 15px;">{{
-                                            comment.createdAt | date:
-                                            'dd/MM/yy, hh:mm a' }}</small>
-                                        <h5
-                                            style="margin-left: 15px;font-size: larger;margin-right: 15px;font-weight: bold;">
-                                            <a (click)="viewProfile(comment.userId)">{{ comment.userName }}</a>
-                                            <br>
-                                            <p style="font-weight: lighter;">{{ comment.content }}</p>
-                                        </h5>
-                                    </div>
-                                </div>
-                            </div>
-                        </ng-container>
-                    </ng-container>
-                    <div class="row">
-                        <div class="col-md-2 col-2">
-                            <div class="avatar"
-                                 style="float: right;">
-                                <img src="assets/img/default-avatar.png"
-                                     alt="Circle Image"
-                                     class="img-circle img-no-padding img-responsive">
-                            </div>
-                        </div>
-                        <div class="col-md-10 col-10">
-                            <div class="form-group">
-                                <input type="text"
-                                       class="form-control"
-                                       placeholder="Comment"
-                                       (keyup)="submitComment($event, post)">
-                            </div>
-                        </div>
-                    </div>
-                </div>
+  <div class="row">
+    <div class="col-lg-6 ml-auto mr-auto">
+      <div class="card card-stats">
+        <div class="card-header">
+          <div class="row">
+            <div class="col-md-1 col-1">
+              <div class="avatar">
+                <img
+                  src="assets/img/default-avatar.png"
+                  alt="Circle Image"
+                  class="img-circle img-no-padding img-responsive"
+                />
+              </div>
             </div>
+            <div class="col-md-11 col-11">
+              <a (click)="viewProfile(post.userId)">{{ post.userName }}</a>
+              <br />
+              <span class="text-muted">
+                <small>{{ post.createdAt | date: "dd/MM/yy, hh:mm a" }}</small>
+              </span>
+            </div>
+          </div>
         </div>
+        <div class="card-body">
+          <h5 style="font-size: large">{{ post.title }}</h5>
+          <p>{{ post.content }}</p>
+          <button-download-file [file]="post.file"> </button-download-file>
+        </div>
+        <div class="card-footer">
+          <ng-container *ngIf="!post.countLike">
+            <small>No like</small>
+          </ng-container>
+          <ng-container *ngIf="post.countLike == 1">
+            <small>{{ post.countLike + " " + "like" }}</small>
+          </ng-container>
+          <ng-container *ngIf="post.countLike > 1">
+            <small>{{ post.countLike + " " + "likes" }}</small>
+          </ng-container>
+          <hr />
+          <div class="row">
+            <div class="col-4 text-center">
+              <ng-container *ngIf="!post.liked">
+                <button
+                  type="button"
+                  class="btn btn-info btn-block btn-round"
+                  (click)="submitLike(post)"
+                  style="min-width: fit-content"
+                >
+                  Like
+                </button>
+              </ng-container>
+              <ng-container *ngIf="post.liked">
+                <button
+                  type="button"
+                  class="btn btn-info btn-block btn-round"
+                  style="min-width: fit-content"
+                >
+                  Liked
+                </button>
+              </ng-container>
+            </div>
+            <div class="col-4 text-center">
+              <button
+                type="button"
+                class="btn btn-info btn-block btn-round"
+                (click)="onBtnShowCommnetClick(post)"
+                style="min-width: fit-content"
+              >
+                Comment
+              </button>
+            </div>
+            <div class="col-4 text-center">
+              <button
+                type="button"
+                class="btn btn-info btn-block btn-round"
+                style="min-width: fit-content"
+              >
+                Share
+              </button>
+            </div>
+          </div>
+          <hr />
+          <ng-container *ngIf="post.isShowComment">
+            <ng-container *ngFor="let comment of post.comments">
+              <div class="row">
+                <div class="col-2">
+                  <div class="avatar" style="float: right">
+                    <img
+                      src="assets/img/default-avatar.png"
+                      alt="Circle Image"
+                      class="img-circle img-no-padding img-responsive"
+                    />
+                  </div>
+                </div>
+                <div class="col-10">
+                  <div class="card bg-light" style="width: fit-content">
+                    <small
+                      style="
+                        margin-top: 15px;
+                        margin-left: 15px;
+                        margin-right: 15px;
+                      "
+                      >{{
+                        comment.createdAt | date: "dd/MM/yy, hh:mm a"
+                      }}</small
+                    >
+                    <h5
+                      style="
+                        margin-left: 15px;
+                        font-size: larger;
+                        margin-right: 15px;
+                        font-weight: bold;
+                      "
+                    >
+                      <a (click)="viewProfile(comment.userId)">{{
+                        comment.userName
+                      }}</a>
+                      <br />
+                      <p style="font-weight: lighter">{{ comment.content }}</p>
+                    </h5>
+                  </div>
+                </div>
+              </div>
+            </ng-container>
+          </ng-container>
+          <div class="row">
+            <div class="col-md-2 col-2">
+              <div class="avatar" style="float: right">
+                <img
+                  src="assets/img/default-avatar.png"
+                  alt="Circle Image"
+                  class="img-circle img-no-padding img-responsive"
+                />
+              </div>
+            </div>
+            <div class="col-md-10 col-10">
+              <div class="form-group">
+                <input
+                  type="text"
+                  class="form-control"
+                  placeholder="Comment"
+                  (keyup)="submitComment($event, post)"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
+  </div>
 </ng-container>
